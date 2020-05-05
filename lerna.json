@@ -1,0 +1,5 @@
+{
+  "packages": ["client", "api"],
+  "version": "independent",
+  "npmClient": "yarn"
+}

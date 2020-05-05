@@ -1,0 +1,29 @@
+{
+  "name": "next_js",
+  "version": "1.0.0",
+  "private": true,
+  "repository": "https://github.com/PabloSzx/next.js-typescript-gqless_rust-rocket-diesel-juniper",
+  "license": "MIT",
+  "author": "PabloSzx",
+  "main": "pages/index.tsx",
+  "scripts": {
+    "build": "next build",
+    "dev": "next",
+    "start": "next start"
+  },
+  "dependencies": {
+    "gqless": "^0.0.1-alpha.29",
+    "gqless-hooks": "^1.1.1",
+    "graphql": "^15.0.0",
+    "next": "^9.3.6",
+    "react": "^16.13.1",
+    "react-dom": "^16.13.1"
+  },
+  "devDependencies": {
+    "@gqless/cli": "^0.0.1-alpha.31",
+    "@types/node": "^13.13.4",
+    "@types/react": "^16.9.34",
+    "@types/react-dom": "^16.9.7",
+    "typescript": "^3.8.3"
+  }
+}
