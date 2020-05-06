@@ -1,11 +1,12 @@
 #![feature(decl_macro, proc_macro_hygiene)]
 
+use diesel::*;
 use juniper::{object, FieldResult, RootNode};
 
 use rocket::{response::*, State};
 
 pub struct Context {
-    pub pool: r2d2::Pool<r2d2_diesel::ConnectionManager<PgConnection>>,
+    pub pool: r2d2::Pool<diesel::r2d2::ConnectionManager<PgConnection>>,
 }
 
 impl juniper::Context for Context {}
@@ -24,13 +25,12 @@ impl Context {
 extern crate diesel;
 extern crate diesel_demo;
 extern crate r2d2;
-extern crate r2d2_diesel;
 
-use self::diesel::prelude::*;
 use self::diesel_demo::*;
 
-use diesel_demo::models::*;
+use crate::models::*;
 use diesel_demo::schema::posts::dsl::*;
+use diesel_demo::schema::users::dsl::*;
 
 pub struct Query {}
 
@@ -43,6 +43,23 @@ impl Query {
             let all_posts = posts.load::<Post>(&*db).expect("asd");
 
             Ok(all_posts)
+        })
+    }
+    fn all_users(ctx: &Context) -> FieldResult<Vec<User>> {
+        ctx.db_connection(|db| {
+            let mut all_users = users.load::<UserSQL>(&*db).expect("asd");
+
+            Ok(all_users
+                .into_iter()
+                .map(|v| User {
+                    id: v.id,
+                    email: v.email,
+                    name: v.name,
+                    password: v.password,
+                    role: from_string_to_role(v.role),
+                })
+                .rev()
+                .collect())
         })
     }
 }
@@ -62,6 +79,49 @@ impl Mutation {
 
             Ok(new_post)
         })
+    }
+    fn createUser(ctx: &Context, user: NewUser) -> FieldResult<User> {
+        let db = ctx.pool.get().unwrap();
+
+        let new_user: UserSQL = diesel::insert_into(schema::users::table)
+            .values(UserSQLInsert {
+                id: user.id,
+                email: user.email,
+                name: user.name,
+                password: user.password,
+            })
+            .get_result(&*db)?;
+
+        Ok(User {
+            id: new_user.id,
+            email: new_user.email,
+            name: new_user.name,
+            password: new_user.password,
+            role: from_string_to_role(new_user.role),
+        })
+    }
+    fn updateUser(ctx: &Context, user: UpdateUser) -> FieldResult<Option<User>> {
+        let db = ctx.pool.get().unwrap();
+
+        let updated_user: Option<UserSQL> = diesel::update(users.find(user.id))
+            .set(UserSQLUpdate {
+                id: user.id,
+                email: user.email,
+                name: user.name,
+                password: user.password,
+            })
+            .get_result(&*db)
+            .optional()?;
+
+        Ok(updated_user.and_then(|v| {
+            Some(User {
+                id: v.id,
+                email: v.email,
+                name: v.name,
+                password: v.password,
+                role: from_string_to_role(v.role),
+            })
+        }))
     }
 }
 
@@ -100,7 +160,7 @@ extern crate dotenv;
 use dotenv::dotenv;
 
 use diesel::pg::PgConnection;
-use r2d2_diesel::ConnectionManager;
+use diesel::r2d2::ConnectionManager;
 
 fn main() {
     dotenv().ok();

@@ -7,7 +7,7 @@ edition = "2018"
 # See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
 
 [dependencies]
-diesel = { version = "1.0.0", features = ["postgres"] }
+diesel = { git="https://github.com/diesel-rs/diesel", features = ["postgres", "r2d2"] }
 dotenv = "0.9.0"
 serde = { version = "1.0.2", features = ["derive"]  }
 serde_json = { version = "1.0.2" }
@@ -17,7 +17,7 @@ juniper_rocket = "0.5.2"
 rocket_contrib = { version = "0.4.4", default-features = false, features = ["diesel_postgres_pool"] }
 juniper = { version = "0.14.2" }
 r2d2 = "0.8.8"
-r2d2-diesel = "1.0.0"
+
 
 [dev-dependencies.juniper]
 version = "0.14.2"

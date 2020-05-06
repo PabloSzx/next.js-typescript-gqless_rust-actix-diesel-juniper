@@ -4,11 +4,11 @@
   "repository": "https://github.com/PabloSzx/next.js-typescript-gqless_rust-rocket-diesel-juniper",
   "license": "MIT",
   "author": "PabloSzx <pablosaez1995@gmail.com>",
-  "main": "index.js",
   "scripts": {
     "dev": "run-p dev-*",
     "dev-api": "nodemon -e toml,rs",
     "dev-client": "wait-on -l tcp:8000 && yarn --cwd client dev",
+    "generate": "lerna run generate",
     "postinstall": "lerna bootstrap"
   },
   "dependencies": {

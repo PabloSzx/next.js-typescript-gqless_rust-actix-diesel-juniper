@@ -9,7 +9,11 @@
   "scripts": {
     "build": "next build",
     "dev": "next",
+    "generate": "gqless generate",
     "start": "next start"
+  },
+  "resolutions": {
+    "@types/react": "^16.9.34"
   },
   "dependencies": {
     "gqless": "^0.0.1-alpha.29",
@@ -21,9 +25,13 @@
   },
   "devDependencies": {
     "@gqless/cli": "^0.0.1-alpha.31",
-    "@types/node": "^13.13.4",
+    "@types/node": "^13.13.5",
     "@types/react": "^16.9.34",
     "@types/react-dom": "^16.9.7",
     "typescript": "^3.8.3"
+  },
+  "gqless": {
+    "url": "http://localhost:8000/api/graphql",
+    "outputDir": "src/graphql"
   }
 }
