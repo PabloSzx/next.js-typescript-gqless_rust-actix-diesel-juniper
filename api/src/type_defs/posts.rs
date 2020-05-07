@@ -1,3 +1,4 @@
+use crate::schema::posts;
 use diesel::*;
 use juniper::{GraphQLInputObject, GraphQLObject};
 
@@ -9,8 +10,6 @@ pub struct Post {
     pub body: String,
     pub published: bool,
 }
-
-use super::schema::*;
 
 #[graphql(description = "New post input type")]
 #[derive(Insertable, GraphQLInputObject)]

@@ -12,13 +12,17 @@ dotenv = "0.9.0"
 serde = { version = "1.0.2", features = ["derive"]  }
 serde_json = { version = "1.0.2" }
 serde_derive = { version = "1.0.2" }
-rocket = { version = "0.4.2" }
-juniper_rocket = "0.5.2"
-rocket_contrib = { version = "0.4.4", default-features = false, features = ["diesel_postgres_pool"] }
-juniper = { version = "0.14.2" }
+actix-identity = "0.2"
+actix-rt = "1.0"
+anyhow = "1.0"
+actix-web = {version = "2.0", features = []}
+juniper = { git="https://github.com/graphql-rust/juniper", branch="async-await", features=["async"] }
 r2d2 = "0.8.8"
+tokio = { version = "0.2", features = ["time"] }
+futures = "0.3.1"
+chrono = { version = "0.4", features = ["serde"] }
 
+[dev-dependencies]
+log = "0.4.3"
 
-[dev-dependencies.juniper]
-version = "0.14.2"
-features = ["expose-test-schema", "serde_json"]
+ 
