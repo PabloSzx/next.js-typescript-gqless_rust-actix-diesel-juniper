@@ -1,7 +1,8 @@
 {
-  "name": "rust-api",
+  "name": "api",
   "license": "MIT",
   "scripts": {
-    "dev": "cargo run"
+    "build": "cargo build --release --color always",
+    "dev": "cargo run --color always"
   }
 }

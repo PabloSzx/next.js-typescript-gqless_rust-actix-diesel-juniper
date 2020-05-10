@@ -5,9 +5,9 @@ import { prepareQuery } from "@src/graphql";
 
 const IndexProps = prepareQuery({
   cacheId: "Query",
-  query: schema => {
-    return getArrayAccessorFields(schema.allUsers, "id", "email", "name");
-  }
+  query: ({ allUsers }) => {
+    return getArrayAccessorFields(allUsers, "id", "email", "name");
+  },
 });
 
 interface Props {
@@ -16,17 +16,17 @@ interface Props {
 
 export const getServerSideProps: GetServerSideProps<Props> = async () => {
   const posts = await IndexProps.prepare({
-    checkCache: false
+    checkCache: false,
   });
 
   return {
     props: {
-      users: posts
-    }
+      users: posts,
+    },
   };
 };
 
-const IndexPage: NextPage<Props> = props => {
+const IndexPage: NextPage<Props> = (props) => {
   return <div>{JSON.stringify(props.users)}</div>;
 };
 

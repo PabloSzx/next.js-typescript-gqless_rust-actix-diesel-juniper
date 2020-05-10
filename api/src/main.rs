@@ -5,11 +5,11 @@ extern crate serde_derive;
 extern crate diesel;
 
 pub mod graphql;
-pub mod models;
 pub mod schema;
 pub mod type_defs;
 
 extern crate dotenv;
+
 use actix_web::{web, App, HttpServer};
 use diesel::pg::PgConnection;
 use diesel::r2d2::ConnectionManager;

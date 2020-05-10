@@ -8,10 +8,10 @@ const endpoint = IS_BROWSER
 
 export const { useQuery, prepareQuery } = createUseQuery<Query>({
   schema,
-  endpoint
+  endpoint,
 });
 
 export const useMutation = createUseMutation<Mutation>({
   schema,
-  endpoint
+  endpoint,
 });

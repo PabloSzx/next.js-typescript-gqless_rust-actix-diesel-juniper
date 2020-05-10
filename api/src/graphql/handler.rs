@@ -25,8 +25,7 @@ pub async fn graphql(
 }
 
 pub fn playground() -> HttpResponse {
-    // I prefer playground but you can use graphiql as well
-    let html = playground_source("http://localhost:8000/api/graphql");
+    let html = playground_source("/api/graphql");
     HttpResponse::Ok()
         .content_type("text/html; charset=utf-8")
         .body(html)

@@ -1,22 +1,29 @@
 {
-  "name": "next.js-typescript-gqless_rust-rocket-diesel-juniper",
+  "name": "next.js-typescript-gqless_rust-actix-diesel-juniper",
   "version": "1.0.0",
-  "repository": "https://github.com/PabloSzx/next.js-typescript-gqless_rust-rocket-diesel-juniper",
+  "repository": "https://github.com/PabloSzx/next.js-typescript-gqless_rust-actix-diesel-juniper",
   "license": "MIT",
   "author": "PabloSzx <pablosaez1995@gmail.com>",
   "scripts": {
-    "dev": "run-p dev-*",
+    "build": "lerna run --parallel --stream build",
+    "dev": "run-p -l dev-*",
     "dev-api": "nodemon -e toml,rs",
     "dev-client": "wait-on -l tcp:8000 && yarn --cwd client dev",
-    "generate": "lerna run generate",
-    "postinstall": "lerna bootstrap"
+    "flush": "rm logs/*",
+    "generate": "wait-on -l tcp:8000 && yarn --cwd client generate",
+    "postinstall": "lerna bootstrap",
+    "start": "mkdirp logs && pm2 start ecosystem.yaml",
+    "stop": "pm2 delete ecosystem.yaml",
+    "monit": "pm2 monit"
   },
   "dependencies": {
     "cross-env": "^7.0.2",
     "lerna": "^3.20.2",
+    "mkdirp": "^1.0.4",
     "nodemon": "^2.0.3",
     "npm-run-all": "^4.1.5",
     "pm2": "^4.4.0",
+    "prettier": "^2.0.5",
     "typescript": "^3.8.3",
     "wait-on": "^5.0.0"
   }

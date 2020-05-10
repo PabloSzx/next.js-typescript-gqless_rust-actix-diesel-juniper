@@ -1,0 +1,22 @@
+apps:
+  - name: api
+    exec_mode: fork
+    script: cargo
+    args: run --offline --release --frozen --color always
+    cwd: api
+    interpreter: none
+    log_file: ../logs/api.log
+    time: true
+    autorestart: false
+  - name: client
+    script: client/node_modules/next/dist/bin/next
+    interpreter: node
+    args: start
+    cwd: client
+    exec_mode: cluster
+    instances: 2
+    log_file: ../logs/client.log
+    time: true
+    autorestart: false
+    env:
+      NODE_ENV: production
