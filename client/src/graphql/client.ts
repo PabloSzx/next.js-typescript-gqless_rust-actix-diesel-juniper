@@ -1,6 +1,7 @@
-import { createUseQuery, createUseMutation } from "gqless-hooks";
-import { schema, Query, Mutation } from "./generated";
+import { createUseMutation, createUseQuery } from "@gqless_hooks";
 import { IS_BROWSER } from "@src/utils/constants";
+
+import { Mutation, Query, schema } from "./generated";
 
 const endpoint = IS_BROWSER
   ? "/api/graphql"
