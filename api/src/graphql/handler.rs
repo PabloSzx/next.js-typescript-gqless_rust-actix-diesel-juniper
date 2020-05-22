@@ -1,18 +1,24 @@
-use crate::graphql::schema::{Context, Schema};
+use crate::graphql::schema::{Auth, Context, Schema};
 use crate::DbPoolData;
-use actix_web::{error, web, Error, HttpResponse};
+use actix_session::Session;
+use actix_web::{dev, error, web, Error, HttpResponse};
 use juniper::http::{playground::playground_source, GraphQLRequest};
 use std::sync::Arc;
 
 pub async fn graphql(
+    session: Session,
     pool: DbPoolData,
     st: web::Data<Arc<Schema>>,
     data: web::Json<GraphQLRequest>,
 ) -> Result<HttpResponse, Error> {
     let mut rt = futures::executor::LocalPool::new();
-
     // Context setup
-    let ctx = Context { pool };
+    let email = session.get("authorization").unwrap();
+
+    let ctx = Context {
+        pool,
+        auth: Auth { email },
+    };
 
     // Execute
     let future_execute = data.execute_async(&st, &ctx);

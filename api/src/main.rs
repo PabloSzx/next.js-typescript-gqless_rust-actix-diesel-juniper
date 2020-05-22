@@ -1,15 +1,16 @@
-#![feature(decl_macro, proc_macro_hygiene)]
 extern crate serde_derive;
 
 #[macro_use]
 extern crate diesel;
 
+pub mod auth;
 pub mod graphql;
 pub mod schema;
 pub mod type_defs;
 
 extern crate dotenv;
 
+use actix_session::CookieSession;
 use actix_web::{web, App, HttpServer};
 use diesel::pg::PgConnection;
 use diesel::r2d2::ConnectionManager;
@@ -24,6 +25,7 @@ async fn main() -> std::io::Result<()> {
 
     let schema = std::sync::Arc::new(crate::graphql::schema::create_schema());
 
+    let secret_token = env::var("SECRET_TOKEN").unwrap_or(String::from("secret_default"));
     let database_url = env::var("DATABASE_URL").expect("DATABASE_URL must be seta");
 
     let manager: ConnectionManager<PgConnection> =
@@ -36,9 +38,15 @@ async fn main() -> std::io::Result<()> {
 
     let server = HttpServer::new(move || {
         App::new()
+            .wrap(
+                CookieSession::signed(secret_token.as_bytes())
+                    .secure(false)
+                    .max_age(30),
+            )
             .data(schema.clone())
             .data(pool.clone())
             .configure(graphql::route)
+            .configure(auth::route)
     })
     .bind(("127.0.0.1", 8000))
     .unwrap()

@@ -7,6 +7,7 @@
   "author": "PabloSzx",
   "main": "pages/index.tsx",
   "scripts": {
+    "analyze-build": "cross-env ANALYZE=true next build",
     "build": "next build",
     "dev": "next",
     "generate": "gqless generate",
@@ -17,20 +18,24 @@
     "chokidar": "^3.4.0"
   },
   "dependencies": {
+    "cross-env": "^7.0.2",
     "gqless": "^0.0.1-alpha.29",
     "gqless-hooks": "^2.0.1",
     "graphql": "^15.0.0",
-    "http-proxy-middleware": "^1.0.3",
-    "next": "^9.4.0",
-    "react": "^16.13.1",
-    "react-dom": "^16.13.1"
+    "http-proxy-middleware": "^1.0.4",
+    "next": "^9.4.1",
+    "preact": "^10.4.4",
+    "preact-render-to-string": "^5.1.8",
+    "react": "github:preact-compat/react#1.0.0",
+    "react-dom": "github:preact-compat/react-dom#1.0.0"
   },
   "devDependencies": {
     "@gqless/cli": "^0.0.1-alpha.31",
-    "@types/node": "^13.13.5",
+    "@next/bundle-analyzer": "^9.4.1",
+    "@types/node": "^14.0.4",
     "@types/react": "^16.9.35",
     "@types/react-dom": "^16.9.8",
-    "typescript": "^3.8.3"
+    "typescript": "^3.9.3"
   },
   "gqless": {
     "url": "http://localhost:8000/api/graphql",

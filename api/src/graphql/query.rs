@@ -21,6 +21,10 @@ impl Query {
     fn all_posts(ctx: &Context) -> FieldResult<Vec<type_defs::posts::Post>> {
         let db = ctx.pool.get().unwrap();
 
+        println!(
+            "{}",
+            *ctx.auth.email.as_ref().unwrap_or(&String::from("no user"))
+        );
         let all_posts = posts.load::<type_defs::posts::Post>(&*db).expect("asd");
 
         Ok(all_posts)

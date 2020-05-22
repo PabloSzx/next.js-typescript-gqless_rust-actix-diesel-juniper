@@ -22,7 +22,8 @@ tokio = { version = "0.2", features = ["time"] }
 futures = "0.3.1"
 chrono = { version = "0.4", features = ["serde"] }
 actix-cors = "0.2.0"
-
+actix-session = "0.3.0"
+actix-http = "1.0.1"
 [dev-dependencies]
 log = "0.4.3"
 

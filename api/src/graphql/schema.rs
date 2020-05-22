@@ -1,14 +1,22 @@
+use crate::graphql::mutation::Mutation;
+use crate::graphql::query::Query;
+use actix_web::{cookie, dev, App, Error, FromRequest, HttpRequest};
 use diesel::pg::PgConnection;
 use diesel::r2d2::ConnectionManager;
 use juniper::RootNode;
-
-use crate::graphql::mutation::Mutation;
-use crate::graphql::query::Query;
 extern crate r2d2;
 use crate::DbPoolData;
 
+use actix_http::httpmessage::HttpMessage;
+use actix_web::error::ErrorBadRequest;
+use futures::future::{err, ok, Ready};
 pub struct Context {
     pub pool: DbPoolData,
+    pub auth: Auth,
+}
+
+pub struct Auth {
+    pub email: Option<String>,
 }
 
 impl juniper::Context for Context {}

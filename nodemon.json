@@ -1,5 +1,6 @@
 {
   "watch": ["/api/"],
+  "ignore": ["target/*"],
   "exec": "yarn --cwd api dev",
   "delay": 5000
 }
